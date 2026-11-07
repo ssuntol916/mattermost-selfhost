@@ -16,7 +16,7 @@ services:
       retries: 5
 
   mattermost:
-    image: mattermost/mattermost-enterprise-edition:latest
+    image: mattermost/mattermost-enterprise-edition:11.7.15
     container_name: mattermost
     restart: unless-stopped
     depends_on:
@@ -36,7 +36,7 @@ services:
       - mattermost-client-plugins:/mattermost/client/plugins
 
   cloudflared:
-    image: cloudflare/cloudflared:latest
+    image: cloudflare/cloudflared:2026.6.0
     container_name: cloudflared
     restart: unless-stopped
     command: tunnel --no-autoupdate run

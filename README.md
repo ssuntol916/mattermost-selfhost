@@ -12,8 +12,8 @@ Docker Compose로 [Mattermost](https://mattermost.com) 채팅 서버를 직접 �
 | 서비스 | 이미지 | 역할 |
 |---|---|---|
 | `postgres` | `postgres:16` | Mattermost 데이터베이스 |
-| `mattermost` | `mattermost/mattermost-enterprise-edition:latest` | 채팅 서버 (호스트 `8065` 포트) |
-| `cloudflared` | `cloudflare/cloudflared:latest` | Cloudflare Tunnel 클라이언트 |
+| `mattermost` | `mattermost/mattermost-enterprise-edition:11.7.15` | 채팅 서버 (호스트 `8065` 포트) |
+| `cloudflared` | `cloudflare/cloudflared:2026.6.0` | Cloudflare Tunnel 클라이언트 |
 
 데이터(DB, 설정, 업로드 파일, 로그, 플러그인)는 Docker named volume에 저장되어 컨테이너를 다시 만들어도 유지됩니다.
 
@@ -108,6 +108,6 @@ docker compose up -d
 ## 참고
 
 - **라이선스**: Enterprise Edition 이미지는 라이선스 없이도 무료 기능으로 동작합니다. 순수 오픈소스판을 원하면 `compose.yml`의 이미지를 `mattermost/mattermost-team-edition`으로 바꾸세요.
-- **버전 고정**: `:latest` 태그는 업데이트 시 메이저 버전이 바뀔 수 있습니다. 운영 환경에서는 `mattermost/mattermost-enterprise-edition:10.x.x`처럼 버전을 고정하는 것을 권장합니다.
+- **버전 고정**: 이미지는 특정 버전으로 고정되어 있습니다. 업그레이드할 때는 `compose.yml`의 태그를 바꾼 뒤 `docker compose pull && docker compose up -d`를 실행하세요. 같은 메이저 안의 패치(예: 11.7.x)는 안전하게 올릴 수 있고, 메이저 업그레이드 전에는 [릴리스 노트](https://docs.mattermost.com/product-overview/mattermost-server-releases.html)의 호환성 변경 사항을 확인하고 백업하세요.
 - **포트 노출**: Tunnel로만 접속한다면 `compose.yml`의 `"8065:8065"`를 `"127.0.0.1:8065:8065"`로 바꾸거나 지워서 외부 노출을 줄일 수 있습니다.
 - **문제 해결**: 접속이 안 되면 `docker compose logs cloudflared`에서 터널 연결 여부를, `docker compose logs mattermost`에서 DB 연결 오류를 확인하세요. Cloudflare 대시보드에서 터널 상태가 **HEALTHY**인지도 확인하세요.
